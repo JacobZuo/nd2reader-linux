@@ -1,21 +1,21 @@
 function [ImageInfo] = ND2Info(FileName)
 
-if not(libisloaded('Nd2ReadSdk'))
-    [~, ~] = loadlibrary('Nd2ReadSdk', 'Nd2ReadSdk.h');
+if not(libisloaded('libNd2ReadSdk'))
+    [~, ~] = loadlibrary('libNd2ReadSdk', 'Nd2ReadSdk.h');
 end
 
 FileID = libpointer('voidPtr', [int8(FileName) 0]);
-[FilePointer] = calllib('Nd2ReadSdk', 'Lim_FileOpenForReadUtf8', FileID);
-numImages = calllib('Nd2ReadSdk', 'Lim_FileGetSeqCount', FilePointer);
-CoordSize = calllib('Nd2ReadSdk', 'Lim_FileGetCoordSize', FilePointer);
-Attributes = calllib('Nd2ReadSdk', 'Lim_FileGetAttributes', FilePointer);
+[FilePointer] = calllib('libNd2ReadSdk', 'Lim_FileOpenForReadUtf8', FileID);
+numImages = calllib('libNd2ReadSdk', 'Lim_FileGetSeqCount', FilePointer);
+CoordSize = calllib('libNd2ReadSdk', 'Lim_FileGetCoordSize', FilePointer);
+Attributes = calllib('libNd2ReadSdk', 'Lim_FileGetAttributes', FilePointer);
 setdatatype(Attributes, 'int8Ptr', 500)
 AttributesValue = Attributes.Value';
 Attributeslength = find(AttributesValue == 0, 1);
 AttributesJson = char(AttributesValue(1:Attributeslength - 1));
 AttributesStru = jsondecode(AttributesJson);
 
-TextInfo = calllib('Nd2ReadSdk', 'Lim_FileGetTextinfo', FilePointer);
+TextInfo = calllib('libNd2ReadSdk', 'Lim_FileGetTextinfo', FilePointer);
 TestLength=3000;
 setdatatype(TextInfo, 'int8Ptr', TestLength)
 TextInfoValue = TextInfo.Value';
@@ -28,7 +28,7 @@ TextInfolength = find(TextInfoValue == 0, 1);
 TextInfoJson = char(TextInfoValue(1:TextInfolength - 1));
 TextInfoStru = jsondecode(TextInfoJson);
 
-Metadata = calllib('Nd2ReadSdk', 'Lim_FileGetMetadata', FilePointer);
+Metadata = calllib('libNd2ReadSdk', 'Lim_FileGetMetadata', FilePointer);
 
 if Metadata.isNull
     MetadataStru=[];
@@ -48,7 +48,7 @@ else
 end
 
 
-Experiment = calllib('Nd2ReadSdk', 'Lim_FileGetExperiment', FilePointer);
+Experiment = calllib('libNd2ReadSdk', 'Lim_FileGetExperiment', FilePointer);
 if Experiment.isNull
     ExperimentStru=[];
     NumInCoord=[];
@@ -89,6 +89,6 @@ ImageInfo.Component = AttributesStru.componentCount;
 [ImageInfo] = CheckInfo(ImageInfo);
 PrintInfo(ImageInfo);
 
-calllib('Nd2ReadSdk', 'Lim_FileClose', FilePointer);
+calllib('libNd2ReadSdk', 'Lim_FileClose', FilePointer);
 
 end

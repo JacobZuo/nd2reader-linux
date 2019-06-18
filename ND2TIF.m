@@ -138,7 +138,7 @@ function [] = ND2TIF(FileName, varargin)
             end
 
             for i = 1:size(Layer0Index(:), 1)
-                [~, ~, ImageReadOut] = calllib('Nd2ReadSdk', 'Lim_FileGetImageData', FilePointer, uint32(ImageIndex(Layer0Index(i)) - 1), ImagePointer);
+                [~, ~, ImageReadOut] = calllib('libNd2ReadSdk', 'Lim_FileGetImageData', FilePointer, uint32(ImageIndex(Layer0Index(i)) - 1), ImagePointer);
                 Image = reshape(ImageReadOut.pImageData, [ImageReadOut.uiComponents, ImageReadOut.uiWidth * ImageReadOut.uiHeight]);
 
                 for j = 1:size(ChannelIndex(:), 1)
@@ -182,7 +182,7 @@ function [] = ND2TIF(FileName, varargin)
 
                 for j = 1:size(Layer1Index(:), 1)
 
-                    [~, ~, ImageReadOut] = calllib('Nd2ReadSdk', 'Lim_FileGetImageData', FilePointer, uint32(ImageIndex(Layer1Index(j), Layer0Index(i)) - 1), ImagePointer);
+                    [~, ~, ImageReadOut] = calllib('libNd2ReadSdk', 'Lim_FileGetImageData', FilePointer, uint32(ImageIndex(Layer1Index(j), Layer0Index(i)) - 1), ImagePointer);
                     Image = reshape(ImageReadOut.pImageData, [ImageReadOut.uiComponents, ImageReadOut.uiWidth * ImageReadOut.uiHeight]);
 
                     for k = 1:size(ChannelIndex(:), 1)
@@ -233,7 +233,7 @@ function [] = ND2TIF(FileName, varargin)
                 for j = 1:size(Layer1Index(:), 1)
 
                     for l = 1:size(Layer2Index(:), 1)
-                        [~, ~, ImageReadOut] = calllib('Nd2ReadSdk', 'Lim_FileGetImageData', FilePointer, uint32(ImageIndex(Layer2Index(l), Layer1Index(j), Layer0Index(i)) - 1), ImagePointer);
+                        [~, ~, ImageReadOut] = calllib('libNd2ReadSdk', 'Lim_FileGetImageData', FilePointer, uint32(ImageIndex(Layer2Index(l), Layer1Index(j), Layer0Index(i)) - 1), ImagePointer);
                         Image = reshape(ImageReadOut.pImageData, [ImageReadOut.uiComponents, ImageReadOut.uiWidth * ImageReadOut.uiHeight]);
 
                         for k = 1:size(ChannelIndex(:), 1)
@@ -308,7 +308,7 @@ function [] = ND2TIF(FileName, varargin)
             elseif strcmp(ChannelMontage, 'on')
 
                 for i = 1:size(Layer0Index(:), 1)
-                    [~, ~, ImageReadOut] = calllib('Nd2ReadSdk', 'Lim_FileGetImageData', FilePointer, uint32(ImageIndex(Layer0Index(i)) - 1), ImagePointer);
+                    [~, ~, ImageReadOut] = calllib('libNd2ReadSdk', 'Lim_FileGetImageData', FilePointer, uint32(ImageIndex(Layer0Index(i)) - 1), ImagePointer);
                     Image = reshape(ImageReadOut.pImageData, [ImageReadOut.uiComponents, ImageReadOut.uiWidth * ImageReadOut.uiHeight]);
                     Original_Image = cell(0);
                     Compressed_Image = cell(0);
@@ -340,7 +340,7 @@ function [] = ND2TIF(FileName, varargin)
                 Original_Image = cell(0);
 
                 for j = 1:size(Layer1Index(:), 1)
-                    [~, ~, ImageReadOut] = calllib('Nd2ReadSdk', 'Lim_FileGetImageData', FilePointer, uint32(ImageIndex(Layer1Index(j), Layer0Index(i)) - 1), ImagePointer);
+                    [~, ~, ImageReadOut] = calllib('libNd2ReadSdk', 'Lim_FileGetImageData', FilePointer, uint32(ImageIndex(Layer1Index(j), Layer0Index(i)) - 1), ImagePointer);
                     Image = reshape(ImageReadOut.pImageData, [ImageReadOut.uiComponents, ImageReadOut.uiWidth * ImageReadOut.uiHeight]);
 
                     for k = 1:size(ChannelIndex(:), 1)
