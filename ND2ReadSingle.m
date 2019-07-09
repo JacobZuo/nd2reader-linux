@@ -3,7 +3,7 @@ function [Image] = ND2ReadSingle(FileName, varargin)
 [FilePointer, ImagePointer, ImageReadOut] = ND2Open(FileName);
 
 if isempty(varargin)
-    numImages = calllib('Nd2ReadSdk', 'Lim_FileGetSeqCount', FilePointer);
+    numImages = calllib('libNd2ReadSdk', 'Lim_FileGetSeqCount', FilePointer);
     Num=1:numImages;
 else
     Num=varargin{1};
