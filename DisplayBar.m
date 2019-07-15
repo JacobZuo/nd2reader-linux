@@ -4,34 +4,30 @@ function [Percentage, Barlength] = DisplayBar(Index, Length)
     Barlength = floor(Index / Length * 60);
 
     if Index == 1
-        fprintf('Processing [')
+        tic;
+        BarStart='';
+        TimeSpend=toc;
     else
-        fprintf('\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b');
+        BarStart = repmat('\b',1,161);
+        TimeSpend=toc;
     end
 
     if Barlength == 60
-
-        for i = 1:60
-            fprintf('#')
-        end
-
+        BarText=['Finished!  [', repmat('#',1,60),sprintf(']%6.1f', Percentage),'%%'];
     elseif Barlength >= 1
-
-        for i = 1:(Barlength - 1)
-            fprintf('#')
-        end
-
-        fprintf('>')
+        BarText=['Processing [', repmat('#',1,(Barlength - 1)),'>',repmat('-',1,(60 - Barlength)),sprintf(']%6.1f', Percentage),'%%'];
+    else
+        BarText=['Processing [', repmat('-',1,(60 - Barlength)),sprintf(']%6.1f', Percentage),'%%'];
     end
-
-    for i = 1:(60 - Barlength)
-        fprintf('-')
-    end
-
-    fprintf(']%6.1f%%', Percentage)
-
+    
     if Barlength == 60
-        fprintf('\n')
+        CountText=[num2str(Length),' Rounds Processed'];
+        TimeSpendText=['Time Used: ', datestr(seconds(TimeSpend),'HH:MM:SS'),' s', repmat(' ',1,10), CountText, '\n'];
+    else
+        CountText=[num2str(Index),'/',num2str(Length),' Processed'];        
+        TimeSpendText=['Time Used: ', datestr(seconds(TimeSpend),'HH:MM:SS'),' s', repmat(' ',1,10), 'Time Remained: ', datestr(seconds((TimeSpend/Percentage*100)-TimeSpend),'HH:MM:SS'),' s', repmat(' ',1,24-length(CountText)), CountText];
     end
+    
+    fprintf([BarStart, BarText, '\n', TimeSpendText])
 
 end
