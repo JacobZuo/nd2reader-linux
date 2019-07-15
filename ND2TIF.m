@@ -46,7 +46,7 @@ function [] = ND2TIF(FileName, varargin)
 
     if exist('SavePath', 'var')
     else
-        SavePath = Path;
+        SavePath = [Path, filesep];
     end
 
     disp('--------------------------------------------------------------------------------')
@@ -81,7 +81,9 @@ function [] = ND2TIF(FileName, varargin)
         Layer2Index = Layer2;
         LayerIndex{2} = Layer2Index;
     elseif LayerNum >= 3
-        disp('Warning, too many layers, compress high level layers into one stack.')
+        warning('off','backtrace')
+        warning('Too many layers, compress high level layers into one stack.')
+        warning('on','backtrace')
         
         ExperimentCount3 = 1;
 
@@ -104,7 +106,7 @@ function [] = ND2TIF(FileName, varargin)
             ImageIndex = 1:ImageInfo.numImages;
 
             for i = 1:ChannelNum
-                TifFileName{i} = [SavePath, filesep, Name, Tag, '_', ImageInfo.metadata.channels(i).channel.name, '.tif'];
+                TifFileName{i} = [SavePath, Name, Tag, '_', ImageInfo.metadata.channels(i).channel.name, '.tif'];
             end
 
             for i = 1:size(Layer0Index(:), 1)
@@ -143,7 +145,7 @@ function [] = ND2TIF(FileName, varargin)
             for i = 1:ChannelNum
 
                 for j = 1:ImageInfo.Experiment(2).count
-                    TifFileName{i}{j} = [SavePath, filesep, Name, Tag, '_', ImageInfo.metadata.channels(i).channel.name, '_' ImageInfo.Experiment(2).type, '_', num2str(j), '.tif'];
+                    TifFileName{i}{j} = [SavePath, Name, Tag, '_', ImageInfo.metadata.channels(i).channel.name, '_' ImageInfo.Experiment(2).type, '_', num2str(j), '.tif'];
                 end
 
             end
@@ -191,7 +193,7 @@ function [] = ND2TIF(FileName, varargin)
                 for j = 1:ImageInfo.Experiment(2).count
 
                     for k = 1:ExperimentCount3
-                        TifFileName{i}{j}{k} = [SavePath, filesep, Name, Tag, '_', ImageInfo.metadata.channels(i).channel.name, '_' ImageInfo.Experiment(2).type, '_', num2str(j), '_' ImageInfo.Experiment(3).type, '_', num2str(k) '.tif'];
+                        TifFileName{i}{j}{k} = [SavePath, Name, Tag, '_', ImageInfo.metadata.channels(i).channel.name, '_' ImageInfo.Experiment(2).type, '_', num2str(j), '_' ImageInfo.Experiment(3).type, '_', num2str(k) '.tif'];
                     end
 
                 end
@@ -259,12 +261,12 @@ function [] = ND2TIF(FileName, varargin)
         end
 
         if strcmp(ChannelMontage, 'on')
-            MontageTifFileName = [SavePath, filesep, Name, Tag, '_Montage', '.tif'];
+            MontageTifFileName = [SavePath, Name, Tag, '_Montage', '.tif'];
         elseif strcmp(ChannelMontage, 'off')
             MontageTifFileName = cell(0);
 
             for i = 1:ChannelNum
-                MontageTifFileName{i} = [SavePath, filesep, Name, Tag, '_Montage_', ImageInfo.metadata.channels(i).channel.name, '.tif'];
+                MontageTifFileName{i} = [SavePath, Name, Tag, '_Montage_', ImageInfo.metadata.channels(i).channel.name, '.tif'];
             end
 
         end
@@ -358,13 +360,15 @@ function [] = ND2TIF(FileName, varargin)
             end
 
         elseif LayerNum >= 3
+            warning('off','backtrace')
+            warning('Too many layers, do not support montage mode.')
+            warning('on','backtrace')
 
-            disp('Warning, too many layers, do not support montage mode.')
             return
         end
 
     end
-    
+    disp('--------------------------------------------------------------------------------')
     ND2Close(FilePointer);
 
 end
