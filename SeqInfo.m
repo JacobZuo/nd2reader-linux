@@ -63,6 +63,6 @@ for i=1:size(Num,2)
 end
 
 ND2Close(FilePointer)
-
+clear('FilePointer')
 end
 
