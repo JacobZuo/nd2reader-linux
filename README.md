@@ -27,7 +27,10 @@ For Linux users, you should have gcc / g++ as the C language compilation.
 
 ```matlab
 MEX configured to use 'gcc' for C language compilation.
-Warning: The MATLAB C and Fortran API has changed to support MATLAB                         variables with more than 2^32-1 elements. You will be required                     to update your code to utilize the new API.                                        You can find more information about this at:                                       https://www.mathworks.com/help/matlab/matlab_external/upgrading-mex-files-to-use-64-bit-api.html.
+Warning: The MATLAB C and Fortran API has changed to support MATLAB
+         variables with more than 2^32-1 elements. You will be required
+         to update your code to utilize the new API.
+         You can find more information about this at: https://www.mathworks.com/help/matlab/matlab_external/upgrading-mex-files-to-use-64-bit-api.html.
 ```
 
 Once you set up the C compiler, you should able to sucessfully loading the library by command,
