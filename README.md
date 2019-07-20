@@ -21,21 +21,21 @@ For now, only uint16 mono-color ```.nd2``` file is supported. The reader can get
 Matlab provides function ```loadlibrary``` to load C / C++ libraries into Matlab. You need to configure for C language compilation in your Matlab.
 
 ```matlab
-mex -setup
+mex -setup 
 ```
+For Linux users, you should have gcc / g++ as the C language compilation.
 
-If you do not have any compiler, you can add 'MinGW64 Compiler' in 'HOME' > 'Add-Ons' follow the image below.
-
-![MinGW64](/Resource/MinGW64.jpg "MinGW64")
+```matlab
+MEX configured to use 'gcc' for C language compilation.
+Warning: The MATLAB C and Fortran API has changed to support MATLAB                         variables with more than 2^32-1 elements. You will be required                     to update your code to utilize the new API.                                        You can find more information about this at:                                       https://www.mathworks.com/help/matlab/matlab_external/upgrading-mex-files-to-use-64-bit-api.html.
+```
 
 Once you set up the C compiler, you should able to sucessfully loading the library by command,
 
 ```matlab
 loadlibrary('Nd2ReadSdk', 'Nd2ReadSdk.h')
 ```
-Noticed that you should add the 'SDK' (both 'include' and 'windows' folder) into Matlab 'Path'. 
-
-For Linux version, you should add both 'include' and 'Linux' folder into Matlab 'Path' and you can load the library with,
+Noticed that you should add both 'include' and 'Linux' folder into Matlab 'Path'. Then you can load the library with,
 
 ```
 loadlibrary('libNd2ReadSdk', 'Nd2ReadSdk.h')
