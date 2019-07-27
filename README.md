@@ -195,3 +195,13 @@ You can get the time and position information of each frame in the sequence by
 
 If your ```.nd2``` file contains multiple channels. The infomation will be stored into cells as ```Seqtime{i}, SeqPosition{i}```.
 
+### 3.6 Use with Terminal
+
+The function ```DisplayBar``` do not work well with some terminal. You can use ```DisplayBarTerminal``` instead.
+
+For the two lines processing bar, the control char ```'\b'``` is not working in some terminal to clear the previous line. But we can use ```'\033[A'``` in terminal to move the cursor upside for one line. If you working with matlab in terminal, you can use ```DisplayBarTerminal``` by rename it,
+
+```bash
+sudo cp -f DisplayBar.m DisplayBar.bac
+sudo cp -f DisplayBarTerminal.m DisplayBar.m
+```
